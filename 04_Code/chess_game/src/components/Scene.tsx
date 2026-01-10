@@ -28,12 +28,13 @@ interface HUDProps {
     playerColor?: 'w' | 'b' | null;
     isMyTurn?: boolean;
     onLeaveGame?: () => void;
+    inviteCode?: string;
 }
 
 /**
  * HUD Component to display game status and turn info
  */
-function HUD({ isMultiplayer, playerColor, isMyTurn, onLeaveGame }: HUDProps) {
+function HUD({ isMultiplayer, playerColor, isMyTurn, onLeaveGame, inviteCode }: HUDProps) {
     const {
         turn, isCheck, isCheckmate, isDraw, isGameOver, resetGame, undoMove,
         isAiEnabled, isAiThinking, setIsAiEnabled, aiDifficulty, setAiDifficulty
@@ -105,7 +106,7 @@ function HUD({ isMultiplayer, playerColor, isMyTurn, onLeaveGame }: HUDProps) {
                 <h2 className={styles.title}>Minecraft Chess</h2>
                 {isMultiplayer && (
                     <p style={{ color: '#5b8dd9', fontSize: '12px', margin: '0 0 8px 0' }}>
-                        🌐 Online Game
+                        🌐 Online Game {inviteCode && <span style={{ color: '#ffcc00', marginLeft: '8px' }}>Code: {inviteCode}</span>}
                     </p>
                 )}
                 <div className={styles.gameInfo}>
@@ -178,12 +179,13 @@ interface SceneContentProps {
     playerColor: 'w' | 'b' | null;
     isMyTurn: boolean;
     onLeaveGame: () => void;
+    inviteCode?: string;
 }
 
 /**
  * Rendering content within the canvas
  */
-function SceneContent({ isMultiplayer, playerColor, isMyTurn, onLeaveGame }: SceneContentProps) {
+function SceneContent({ isMultiplayer, playerColor, isMyTurn, onLeaveGame, inviteCode }: SceneContentProps) {
     const [tutorialOpen, setTutorialOpen] = useState(false);
     const [tacticsOpen, setTacticsOpen] = useState(false);
     const [endgameOpen, setEndgameOpen] = useState(false);
@@ -239,6 +241,7 @@ function SceneContent({ isMultiplayer, playerColor, isMyTurn, onLeaveGame }: Sce
                 playerColor={playerColor}
                 isMyTurn={isMyTurn}
                 onLeaveGame={onLeaveGame}
+                inviteCode={inviteCode}
             />
             <CapturedPieces player="white" />
             <CapturedPieces player="black" />
@@ -348,12 +351,18 @@ function MultiplayerCoordinator() {
         );
     }
 
+    // Get invite code from session when playing
+    const inviteCode = multiplayer.state.mode === 'playing'
+        ? multiplayer.state.session.invite_code
+        : undefined;
+
     return (
         <SceneContent
             isMultiplayer={multiplayer.isMultiplayer}
             playerColor={multiplayer.playerColor}
             isMyTurn={multiplayer.isMyTurn}
             onLeaveGame={handleLeaveGame}
+            inviteCode={inviteCode}
         />
     );
 }
