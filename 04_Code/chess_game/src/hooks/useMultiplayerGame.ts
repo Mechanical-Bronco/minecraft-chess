@@ -44,7 +44,7 @@ export function useMultiplayerGame() {
 
   // Create a new game session
   const createGame = useCallback(async () => {
-    if (!playerId || !isSupabaseConfigured) {
+    if (!playerId || !isSupabaseConfigured()) {
       setState({ mode: 'error', message: 'Multiplayer not available' });
       return;
     }
@@ -76,7 +76,7 @@ export function useMultiplayerGame() {
 
   // Join an existing game by invite code
   const joinGame = useCallback(async (inviteCode: string) => {
-    if (!playerId || !isSupabaseConfigured) {
+    if (!playerId || !isSupabaseConfigured()) {
       setState({ mode: 'error', message: 'Multiplayer not available' });
       return;
     }

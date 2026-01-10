@@ -1,14 +1,41 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+let supabaseInstance: SupabaseClient | null = null;
 
-// Create client only if we have the required env vars
-export const supabase = supabaseUrl && supabaseAnonKey
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null!;
+function getSupabase(): SupabaseClient | null {
+  if (supabaseInstance) return supabaseInstance;
 
-export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (supabaseUrl && supabaseAnonKey) {
+    supabaseInstance = createClient(supabaseUrl, supabaseAnonKey);
+  }
+
+  return supabaseInstance;
+}
+
+export const supabase = {
+  from: (table: string) => {
+    const client = getSupabase();
+    if (!client) throw new Error('Supabase not configured');
+    return client.from(table);
+  },
+  channel: (name: string) => {
+    const client = getSupabase();
+    if (!client) throw new Error('Supabase not configured');
+    return client.channel(name);
+  },
+  removeChannel: (channel: ReturnType<SupabaseClient['channel']>) => {
+    const client = getSupabase();
+    if (!client) return;
+    return client.removeChannel(channel);
+  }
+};
+
+export function isSupabaseConfigured(): boolean {
+  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+}
 
 // Database types for game_sessions table
 export interface GameSession {
