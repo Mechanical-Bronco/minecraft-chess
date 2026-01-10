@@ -1,0 +1,76 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal {
+    background-color: #c6c6c6;
+    /* Classic MC UI gray */
+    border: 4px solid #373737;
+    border-top-color: #ffffff;
+    border-left-color: #ffffff;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.4);
+}
+
+.title {
+    font-family: var(--font-geist-sans);
+    color: #3f3f3f;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 0 #ffffff;
+    font-size: 20px;
+}
+
+.options {
+    display: flex;
+    gap: 16px;
+}
+
+.option {
+    background-color: #8b8b8b;
+    border: 3px solid #373737;
+    border-top-color: #ffffff;
+    border-left-color: #ffffff;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.option:hover {
+    transform: scale(1.05);
+    background-color: #9d9d9d;
+}
+
+.option:active {
+    transform: scale(0.95);
+    border-top-color: #373737;
+    border-left-color: #373737;
+    border-bottom-color: #ffffff;
+    border-right-color: #ffffff;
+}
+
+.pieceLabel {
+    font-size: 12px;
+    margin-top: 8px;
+    color: #ffffff;
+    text-shadow: 1px 1px 0 #1e1e1e;
+}
+
+.icon {
+    font-size: 32px;
+}

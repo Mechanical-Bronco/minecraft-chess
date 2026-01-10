@@ -1,0 +1,361 @@
+/**
+ * Opening Tutorial Styles
+ * Clean, readable modal for teaching opening principles
+ */
+
+/* Use system font for readability */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    backdrop-filter: blur(6px);
+    animation: fadeIn 0.25s ease-out;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.modal {
+    background-color: #f5f5f5;
+    border: 3px solid #2d2d2d;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    width: 760px;
+    max-width: 95vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    animation: scaleIn 0.25s ease-out;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+
+.title {
+    color: #2d2d2d;
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.closeButton {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: inherit;
+    transition: background-color 0.15s;
+}
+
+.closeButton:hover {
+    background-color: #c0392b;
+}
+
+/* Progress Dots */
+.progress {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ccc;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.15s, transform 0.15s;
+    font-family: inherit;
+}
+
+.dot:hover {
+    background-color: #aaa;
+    transform: scale(1.1);
+}
+
+.activeDot {
+    background-color: #27ae60;
+}
+
+/* Main Layout - Side by side */
+.mainContent {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+    min-height: 0;
+}
+
+/* Left side - Text content */
+.content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.principleTitle {
+    color: #27ae60;
+    margin: 0 0 10px 0;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.description {
+    color: #444;
+    line-height: 1.5;
+    margin: 0 0 12px 0;
+    font-size: 16px;
+}
+
+.tips {
+    background-color: #fff;
+    padding: 12px 14px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.tips h4 {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.tips ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.tips li {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.tips li:last-child {
+    margin-bottom: 0;
+}
+
+/* Right side - Board */
+.boardSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Example Toggle */
+.exampleToggle {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.toggleButton {
+    padding: 8px 16px;
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 4px;
+    color: #555;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.15s;
+}
+
+.toggleButton:hover {
+    background-color: #d0d0d0;
+}
+
+.activeToggle {
+    background-color: #27ae60;
+    color: #fff;
+}
+
+.activeToggle:hover {
+    background-color: #219a52;
+}
+
+/* Mini Board */
+.miniBoard {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #333;
+    border-radius: 2px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.boardRow {
+    display: flex;
+}
+
+.square {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.lightSquare {
+    background-color: #f0d9b5;
+}
+
+.darkSquare {
+    background-color: #b58863;
+}
+
+.goodHighlight {
+    box-shadow: inset 0 0 0 3px rgba(39, 174, 96, 0.7);
+}
+
+.badHighlight {
+    box-shadow: inset 0 0 0 3px rgba(231, 76, 60, 0.7);
+}
+
+.piece {
+    font-size: 26px;
+    line-height: 1;
+    user-select: none;
+}
+
+/* Caption */
+.caption {
+    margin-top: 10px;
+    font-size: 13px;
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 4px;
+    max-width: 300px;
+    line-height: 1.4;
+}
+
+.goodCaption {
+    background-color: rgba(39, 174, 96, 0.15);
+    color: #1e8449;
+}
+
+.badCaption {
+    background-color: rgba(231, 76, 60, 0.15);
+    color: #c0392b;
+}
+
+/* Navigation */
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 2px solid #ddd;
+    margin-top: 12px;
+    flex-shrink: 0;
+}
+
+.navButton {
+    padding: 10px 20px;
+    background-color: #3498db;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 15px;
+    font-family: inherit;
+    transition: background-color 0.15s;
+}
+
+.navButton:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.navButton:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.pageInfo {
+    color: #666;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Mobile - Stack vertically */
+@media (max-width: 700px) {
+    .modal {
+        padding: 16px;
+        max-height: 90vh;
+    }
+
+    .mainContent {
+        flex-direction: column;
+        gap: 12px;
+        overflow-y: auto;
+    }
+
+    .boardSection {
+        order: -1;
+    }
+
+    .square {
+        width: 30px;
+        height: 30px;
+    }
+
+    .piece {
+        font-size: 20px;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+
+    .principleTitle {
+        font-size: 15px;
+    }
+
+    .description {
+        font-size: 13px;
+    }
+}

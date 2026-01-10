@@ -1,0 +1,101 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal {
+    background-color: #c6c6c6;
+    /* Classic MC UI gray */
+    border: 4px solid #373737;
+    border-top-color: #ffffff;
+    border-left-color: #ffffff;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.5);
+    min-width: 300px;
+    animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.8); }
+    to { transform: scale(1); }
+}
+
+.title {
+    font-family: var(--font-geist-sans);
+    color: #3f3f3f;
+    margin-bottom: 12px;
+    text-shadow: 2px 2px 0 #ffffff;
+    font-size: 32px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-family: var(--font-geist-mono);
+    color: #1a1a1a;
+    margin-bottom: 24px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.button {
+    background-color: #727272;
+    color: white;
+    border: 3px solid #373737;
+    border-top-color: #ffffff;
+    border-left-color: #ffffff;
+    padding: 12px 24px;
+    font-family: var(--font-geist-mono);
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    text-shadow: 1px 1px 0 #1e1e1e;
+    transition: background-color 0.1s;
+}
+
+.button:hover {
+    background-color: #8b8b8b;
+}
+
+.button:active {
+    background-color: #555555;
+    border-top-color: #373737;
+    border-left-color: #373737;
+    border-bottom-color: #ffffff;
+    border-right-color: #ffffff;
+    transform: translateY(2px);
+}
+
+.buttonPrimary {
+    background-color: #3b8526; /* Minecraft Green */
+}
+
+.buttonPrimary:hover {
+    background-color: #4ca335;
+}
+
+.buttonPrimary:active {
+    background-color: #2b631b;
+}

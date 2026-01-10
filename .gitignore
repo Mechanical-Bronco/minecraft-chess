@@ -1,0 +1,14 @@
+# OS files
+.DS_Store
+
+# Claude Code
+.claude/
+
+# Archives
+*.zip
+
+# Temporary files
+temp/
+
+# Environment
+.env*

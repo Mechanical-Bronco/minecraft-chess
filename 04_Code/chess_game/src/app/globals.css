@@ -1,0 +1,113 @@
+/**
+ * Global Styles & Design System
+ * Minecraft-themed CSS variables and reset
+ */
+
+/* Import Minecraft-style pixel font */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* CSS Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-minecraft), monospace;
+  background-color: var(--mc-sky);
+  color: var(--color-text);
+}
+
+/* Minecraft Theme Design Tokens */
+:root {
+  /* Minecraft color palette */
+  --mc-grass: #7cbd6b;
+  --mc-grass-dark: #6aad5a;
+  --mc-dirt: #8b6e4e;
+  --mc-dirt-dark: #7a5d3d;
+  --mc-stone: #7f7f7f;
+  --mc-stone-dark: #666666;
+  --mc-wood: #9c7853;
+  --mc-sky: #87ceeb;
+  --mc-gold: #ffd700;
+  
+  /* UI colors */
+  --color-text: #2c3e50;
+  --color-text-light: #ffffff;
+  --color-highlight: #ffd700;
+  --color-selected: #ff6b6b;
+  --color-check: #ff4757;
+  --color-success: #51cf66;
+  --color-warning: #ffa94d;
+  
+  /* Spacing system */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* Typography */
+  --font-minecraft: 'Press Start 2P', monospace;
+  --font-size-xs: 8px;
+  --font-size-sm: 10px;
+  --font-size-md: 12px;
+  --font-size-lg: 16px;
+  --font-size-xl: 20px;
+  
+  /* Z-index layers */
+  --z-board: 1;
+  --z-piece: 10;
+  --z-ui: 100;
+  --z-modal: 1000;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.3);
+  
+  /* Border radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+}
+
+/* Utility Classes */
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Smooth transitions */
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Remove default button styles */
+button {
+  font-family: var(--font-minecraft);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* Accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-highlight);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-highlight);
+  color: var(--color-text);
+}
