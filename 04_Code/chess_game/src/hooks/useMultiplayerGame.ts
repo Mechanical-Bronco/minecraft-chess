@@ -161,6 +161,7 @@ export function useMultiplayerGame() {
     if (state.mode !== 'waiting' && state.mode !== 'playing') return;
 
     const sessionId = state.session.id;
+    console.log('Setting up realtime subscription for session:', sessionId);
 
     const channel = supabase
       .channel(`game_${sessionId}`)
@@ -173,12 +174,15 @@ export function useMultiplayerGame() {
           filter: `id=eq.${sessionId}`
         },
         (payload) => {
+          console.log('Received realtime update:', payload);
           const updatedSession = payload.new as GameSession;
 
           // Use functional setState to avoid stale closure issues
           setState(prev => {
+            console.log('Current state mode:', prev.mode, 'Updated status:', updatedSession.status);
             // If we were waiting and game became active, we're now playing as white
             if (prev.mode === 'waiting' && updatedSession.status === 'active') {
+              console.log('Transitioning to playing as white');
               return { mode: 'playing', session: updatedSession, playerColor: 'w' };
             }
             // If we're playing, update the session (opponent made a move)
@@ -189,10 +193,36 @@ export function useMultiplayerGame() {
           });
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log('Subscription status:', status);
+      });
+
+    // Polling fallback - check every 2 seconds in case realtime fails
+    const pollInterval = setInterval(async () => {
+      const { data } = await supabase
+        .from('game_sessions')
+        .select()
+        .eq('id', sessionId)
+        .single();
+
+      if (data) {
+        setState(prev => {
+          if (prev.mode === 'waiting' && data.status === 'active') {
+            console.log('Polling detected game is now active');
+            return { mode: 'playing', session: data, playerColor: 'w' };
+          }
+          if (prev.mode === 'playing' && data.fen !== prev.session.fen) {
+            return { ...prev, session: data };
+          }
+          return prev;
+        });
+      }
+    }, 2000);
 
     return () => {
+      console.log('Cleaning up subscription for session:', sessionId);
       supabase.removeChannel(channel);
+      clearInterval(pollInterval);
     };
   }, [state.mode, state.mode === 'waiting' || state.mode === 'playing' ? state.session.id : null]);
 
