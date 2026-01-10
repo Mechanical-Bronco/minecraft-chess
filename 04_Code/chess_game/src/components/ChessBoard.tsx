@@ -56,10 +56,14 @@ function SquareOverlay({ position, isSelected, isValidMove, onClick }: SquarePro
     );
 }
 
+interface ChessBoardProps {
+    disableMoves?: boolean;
+}
+
 /**
  * Chess board grid component
  */
-export default function ChessBoard() {
+export default function ChessBoard({ disableMoves = false }: ChessBoardProps) {
     const { pieces: gamePieces, selectedSquare, validMoves, selectSquare } = useGame();
 
     // Data for all 64 squares
@@ -122,6 +126,11 @@ export default function ChessBoard() {
         return validMoves.some(m => m.to === squareName);
     }, [validMoves]);
 
+    const handleSquareClick = useCallback((squareName: ChessSquareName) => {
+        if (disableMoves) return;
+        selectSquare(squareName);
+    }, [disableMoves, selectSquare]);
+
     return (
         <group>
             {/* Merged Static Board Base */}
@@ -134,9 +143,9 @@ export default function ChessBoard() {
                 <SquareOverlay
                     key={square.key}
                     position={square.position}
-                    isSelected={selectedSquare === square.squareName}
-                    isValidMove={isValidMove(square.squareName)}
-                    onClick={() => selectSquare(square.squareName as ChessSquareName)}
+                    isSelected={!disableMoves && selectedSquare === square.squareName}
+                    isValidMove={!disableMoves && isValidMove(square.squareName)}
+                    onClick={() => handleSquareClick(square.squareName as ChessSquareName)}
                 />
             ))}
 
@@ -147,7 +156,7 @@ export default function ChessBoard() {
                     type={piece.type}
                     color={piece.color}
                     position={piece.position}
-                    onClick={() => selectSquare(piece.square as ChessSquareName)}
+                    onClick={() => handleSquareClick(piece.square as ChessSquareName)}
                 />
             ))}
         </group>

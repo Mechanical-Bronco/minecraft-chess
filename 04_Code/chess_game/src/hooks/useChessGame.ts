@@ -264,6 +264,21 @@ export function useChessGame() {
     }, [syncPieces]);
 
     /**
+     * Load game from FEN string (for multiplayer sync)
+     */
+    const loadFen = useCallback((fen: string) => {
+        try {
+            const newGame = new Chess(fen);
+            setGame(newGame);
+            setSelectedSquare(null);
+            setPendingMove(null);
+            syncPieces(newGame.board());
+        } catch (e) {
+            console.error('Invalid FEN:', e);
+        }
+    }, [syncPieces]);
+
+    /**
      * Undo the last move (Context-aware)
      * If AI is enabled: Undoes 2 plies (User + AI) -> returns to User's turn
      * If AI is disabled: Undoes 1 ply -> returns to opponent's turn
@@ -324,6 +339,8 @@ export function useChessGame() {
         selectSquare,
         resetGame,
         undoMove,
+        loadFen,
+        fen: game.fen(),
         turn: game.turn(),
         isCheck: game.inCheck(),
         isCheckmate: game.isCheckmate(),

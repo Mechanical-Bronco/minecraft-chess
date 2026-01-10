@@ -1,0 +1,242 @@
+/**
+ * Lobby Styles
+ * Minecraft-themed lobby for multiplayer game setup
+ */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to bottom, var(--mc-sky) 0%, #b0d9f5 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.container {
+    background-color: rgba(33, 33, 33, 0.95);
+    border: 4px solid #000000;
+    padding: 32px;
+    min-width: 320px;
+    max-width: 400px;
+}
+
+.title {
+    font-size: 28px;
+    color: var(--mc-gold);
+    text-shadow: 2px 2px 0 #3f3f3f;
+    text-align: center;
+    margin: 0 0 24px 0;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #aaaaaa;
+    text-align: center;
+    margin: 0 0 24px 0;
+}
+
+.section {
+    margin-bottom: 24px;
+}
+
+.sectionTitle {
+    font-size: 16px;
+    color: #ffffff;
+    margin: 0 0 12px 0;
+    text-shadow: 1px 1px 0 #3f3f3f;
+}
+
+.button {
+    width: 100%;
+    background-color: #c6c6c6;
+    border: 4px solid #373737;
+    border-top-color: #ffffff;
+    border-left-color: #ffffff;
+    color: #3f3f3f;
+    padding: 14px 20px;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.button:hover {
+    background-color: #d6d6d6;
+}
+
+.button:active {
+    border-top-color: #373737;
+    border-left-color: #373737;
+    border-bottom-color: #ffffff;
+    border-right-color: #ffffff;
+}
+
+.button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.primaryButton {
+    background-color: var(--mc-grass-light);
+    color: #ffffff;
+    text-shadow: 2px 2px 0 #2d5a27;
+}
+
+.primaryButton:hover {
+    background-color: #7ec850;
+}
+
+.secondaryButton {
+    background-color: #5b8dd9;
+    color: #ffffff;
+    text-shadow: 2px 2px 0 #2d4a7a;
+}
+
+.secondaryButton:hover {
+    background-color: #6b9de9;
+}
+
+.divider {
+    border: none;
+    border-top: 2px solid #3f3f3f;
+    margin: 24px 0;
+}
+
+.inputGroup {
+    display: flex;
+    gap: 8px;
+}
+
+.input {
+    flex: 1;
+    background-color: #000000;
+    border: 4px solid #373737;
+    border-top-color: #1a1a1a;
+    border-left-color: #1a1a1a;
+    color: #ffffff;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-align: center;
+}
+
+.input::placeholder {
+    color: #666666;
+    letter-spacing: 2px;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--mc-gold);
+}
+
+.joinButton {
+    background-color: #5b8dd9;
+    color: #ffffff;
+    text-shadow: 1px 1px 0 #2d4a7a;
+    padding: 12px 20px;
+    white-space: nowrap;
+}
+
+/* Waiting Screen */
+.waitingScreen {
+    text-align: center;
+}
+
+.inviteCode {
+    background-color: #000000;
+    border: 4px solid var(--mc-gold);
+    padding: 20px;
+    margin: 16px 0;
+}
+
+.inviteCodeLabel {
+    font-size: 12px;
+    color: #aaaaaa;
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+}
+
+.inviteCodeValue {
+    font-size: 36px;
+    color: var(--mc-gold);
+    letter-spacing: 8px;
+    margin: 0;
+    text-shadow: 2px 2px 0 #3f3f3f;
+    font-weight: bold;
+}
+
+.waitingMessage {
+    color: #aaaaaa;
+    font-size: 14px;
+    margin: 16px 0;
+}
+
+.waitingDots {
+    animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+
+.copyHint {
+    font-size: 12px;
+    color: #666666;
+    margin-top: 8px;
+}
+
+/* Error state */
+.error {
+    background-color: rgba(255, 71, 87, 0.2);
+    border: 2px solid #ff4757;
+    color: #ff4757;
+    padding: 12px;
+    margin-bottom: 16px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Playing indicator */
+.playingAs {
+    text-align: center;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.playingAsWhite {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid #ffffff;
+    color: #ffffff;
+}
+
+.playingAsBlack {
+    background-color: rgba(139, 90, 43, 0.3);
+    border: 2px solid #8b5a2b;
+    color: #d4a574;
+}
+
+/* Local play button */
+.localPlaySection {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 2px solid #3f3f3f;
+}
+
+.localPlayHint {
+    font-size: 12px;
+    color: #666666;
+    text-align: center;
+    margin-bottom: 12px;
+}
