@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { supabase, GameSession } from '@/lib/supabase';
+import { supabase, GameSession, isSupabaseConfigured } from '@/lib/supabase';
 
 // Generate a random 6-character invite code
 function generateInviteCode(): string {
@@ -44,7 +44,10 @@ export function useMultiplayerGame() {
 
   // Create a new game session
   const createGame = useCallback(async () => {
-    if (!playerId) return;
+    if (!playerId || !isSupabaseConfigured) {
+      setState({ mode: 'error', message: 'Multiplayer not available' });
+      return;
+    }
 
     setState({ mode: 'creating' });
 
@@ -73,10 +76,14 @@ export function useMultiplayerGame() {
 
   // Join an existing game by invite code
   const joinGame = useCallback(async (inviteCode: string) => {
-    if (!playerId) return;
+    if (!playerId || !isSupabaseConfigured) {
+      setState({ mode: 'error', message: 'Multiplayer not available' });
+      return;
+    }
 
     setState({ mode: 'joining' });
 
+    // Normalize to uppercase for case-insensitive matching
     const normalizedCode = inviteCode.toUpperCase().trim();
 
     // Find the game

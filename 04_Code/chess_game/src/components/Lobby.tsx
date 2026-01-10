@@ -63,19 +63,24 @@ export default function Lobby({
         {state.mode === 'idle' && (
           <>
             <div className={styles.section}>
-              <h2 className={styles.sectionTitle}>Online Multiplayer</h2>
+              <h2 className={styles.sectionTitle}>Start New Game</h2>
               <button
                 className={`${styles.button} ${styles.primaryButton}`}
                 onClick={onCreateGame}
               >
                 Create Game
               </button>
+            </div>
 
-              <form onSubmit={handleJoinSubmit} className={styles.inputGroup}>
+            <hr className={styles.divider} />
+
+            <div className={styles.section}>
+              <h2 className={styles.sectionTitle}>Join a Friend</h2>
+              <form onSubmit={handleJoinSubmit} className={styles.joinForm}>
                 <input
                   type="text"
                   className={styles.input}
-                  placeholder="CODE"
+                  placeholder="Enter 6-letter code"
                   value={joinCode}
                   onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
                   maxLength={6}
@@ -85,12 +90,14 @@ export default function Lobby({
                   className={`${styles.button} ${styles.joinButton}`}
                   disabled={joinCode.length < 6}
                 >
-                  Join
+                  Join Game
                 </button>
               </form>
             </div>
 
-            <div className={styles.localPlaySection}>
+            <hr className={styles.divider} />
+
+            <div className={styles.section}>
               <p className={styles.localPlayHint}>Or play on this device</p>
               <button
                 className={styles.button}

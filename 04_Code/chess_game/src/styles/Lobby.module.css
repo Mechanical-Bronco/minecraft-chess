@@ -111,31 +111,34 @@
     margin: 24px 0;
 }
 
-.inputGroup {
+.joinForm {
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+    gap: 12px;
     width: 100%;
 }
 
 .input {
-    flex: 1;
-    min-width: 0;
+    width: 100%;
     background-color: #000000;
     border: 4px solid #373737;
     border-top-color: #1a1a1a;
     border-left-color: #1a1a1a;
     color: #ffffff;
-    padding: 12px;
+    padding: 14px;
     font-family: inherit;
-    font-size: 18px;
+    font-size: 16px;
     text-transform: uppercase;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .input::placeholder {
-    color: #666666;
-    letter-spacing: 2px;
+    color: #555555;
+    text-transform: none;
+    letter-spacing: 1px;
+    font-size: 14px;
 }
 
 .input:focus {
@@ -144,13 +147,10 @@
 }
 
 .joinButton {
-    flex-shrink: 0;
     background-color: #5b8dd9;
     color: #ffffff;
     text-shadow: 1px 1px 0 #2d4a7a;
-    padding: 12px 16px;
-    white-space: nowrap;
-    margin-bottom: 0;
+    width: 100%;
 }
 
 /* Waiting Screen */
@@ -243,7 +243,7 @@
 
 .localPlayHint {
     font-size: 12px;
-    color: #666666;
+    color: #888888;
     text-align: center;
-    margin-bottom: 12px;
+    margin: 0 0 12px 0;
 }
