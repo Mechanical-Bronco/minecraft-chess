@@ -12,3 +12,5 @@ temp/
 
 # Environment
 .env*
+.vercel
+.env*.local

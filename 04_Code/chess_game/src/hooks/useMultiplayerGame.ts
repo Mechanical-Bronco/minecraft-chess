@@ -98,15 +98,22 @@ export function useMultiplayerGame() {
       return;
     }
 
-    // Check if game is joinable
-    if (session.status !== 'waiting') {
-      setState({ mode: 'error', message: 'This game is no longer available.' });
+    // Check if this player is already in the game (rejoin scenario)
+    if (session.white_player_id === playerId) {
+      // Rejoin as white
+      setState({ mode: 'playing', session, playerColor: 'w' });
       return;
     }
 
-    // Check if this is the same player who created it
-    if (session.white_player_id === playerId) {
-      setState({ mode: 'error', message: "You can't join your own game!" });
+    if (session.black_player_id === playerId) {
+      // Rejoin as black
+      setState({ mode: 'playing', session, playerColor: 'b' });
+      return;
+    }
+
+    // Check if game is joinable (only waiting games can accept new players)
+    if (session.status !== 'waiting') {
+      setState({ mode: 'error', message: 'This game is no longer available.' });
       return;
     }
 
