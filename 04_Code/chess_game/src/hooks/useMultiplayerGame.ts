@@ -175,17 +175,18 @@ export function useMultiplayerGame() {
         (payload) => {
           const updatedSession = payload.new as GameSession;
 
-          // If we were waiting and game became active, we're now playing as white
-          if (state.mode === 'waiting' && updatedSession.status === 'active') {
-            setState({ mode: 'playing', session: updatedSession, playerColor: 'w' });
-          }
-          // If we're playing, update the session (opponent made a move)
-          else if (state.mode === 'playing') {
-            setState(prev => {
-              if (prev.mode !== 'playing') return prev;
+          // Use functional setState to avoid stale closure issues
+          setState(prev => {
+            // If we were waiting and game became active, we're now playing as white
+            if (prev.mode === 'waiting' && updatedSession.status === 'active') {
+              return { mode: 'playing', session: updatedSession, playerColor: 'w' };
+            }
+            // If we're playing, update the session (opponent made a move)
+            if (prev.mode === 'playing') {
               return { ...prev, session: updatedSession };
-            });
-          }
+            }
+            return prev;
+          });
         }
       )
       .subscribe();
