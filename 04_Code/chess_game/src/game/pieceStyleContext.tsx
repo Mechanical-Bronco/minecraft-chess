@@ -10,6 +10,7 @@ import { createContext, useContext, useState, useEffect, useCallback, useMemo, R
 export enum PieceStyle {
     SIMPLE = 'simple',
     ADVANCED = 'advanced',
+    DOGS = 'dogs',
 }
 
 interface PieceStyleContextType {
@@ -28,7 +29,7 @@ export function PieceStyleProvider({ children }: { children: ReactNode }) {
     // Load saved preference on mount
     useEffect(() => {
         const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved === PieceStyle.SIMPLE || saved === PieceStyle.ADVANCED) {
+        if (saved === PieceStyle.SIMPLE || saved === PieceStyle.ADVANCED || saved === PieceStyle.DOGS) {
             setStyleState(saved);
         }
     }, []);
@@ -40,7 +41,10 @@ export function PieceStyleProvider({ children }: { children: ReactNode }) {
 
     const toggleStyle = useCallback(() => {
         setStyleState(prev => {
-            const next = prev === PieceStyle.SIMPLE ? PieceStyle.ADVANCED : PieceStyle.SIMPLE;
+            // Cycle through: SIMPLE -> ADVANCED -> DOGS -> SIMPLE
+            const styles = [PieceStyle.SIMPLE, PieceStyle.ADVANCED, PieceStyle.DOGS];
+            const currentIndex = styles.indexOf(prev);
+            const next = styles[(currentIndex + 1) % styles.length];
             localStorage.setItem(STORAGE_KEY, next);
             return next;
         });
