@@ -2,14 +2,14 @@
 
 /**
  * AnimalPiece Component
- * Renders 3D dog/cat models for chess pieces
+ * Renders cute pet photos on 3D coins
  * Dogs = one player, Cats = other player
  */
 
 import { useMemo, useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame, useLoader } from '@react-three/fiber';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { TextureLoader } from 'three';
 import { PieceType, PieceColor } from '@/game/types';
 
 interface AnimalPieceProps {
@@ -19,73 +19,37 @@ interface AnimalPieceProps {
   onClick?: () => void;
 }
 
-// Scale factors for each piece type (maintains chess hierarchy)
-const PIECE_SCALES: Record<PieceType, number> = {
-  king: 0.35,
-  queen: 0.30,
-  bishop: 0.25,
-  knight: 0.25,
-  rook: 0.22,
-  pawn: 0.18,
+// Coin sizes for each piece type (maintains chess hierarchy)
+const PIECE_SIZES: Record<PieceType, { radius: number; height: number }> = {
+  king:   { radius: 0.42, height: 0.15 },
+  queen:  { radius: 0.40, height: 0.14 },
+  bishop: { radius: 0.35, height: 0.12 },
+  knight: { radius: 0.35, height: 0.12 },
+  rook:   { radius: 0.35, height: 0.12 },
+  pawn:   { radius: 0.28, height: 0.10 },
 };
 
-// Y offset to place pieces on the board properly
-const PIECE_Y_OFFSETS: Record<PieceType, number> = {
-  king: -0.8,
-  queen: -0.7,
-  bishop: -0.6,
-  knight: -0.6,
-  rook: -0.5,
-  pawn: -0.4,
-};
-
-// Color palettes for dogs (white/light team) and cats (black/dark team)
-const DOG_COLORS = {
-  primary: '#D4A574',    // Tan/golden
-  secondary: '#8B6914',  // Darker brown
-  accent: '#F5DEB3',     // Wheat/cream highlights
-};
-
-const CAT_COLORS = {
-  primary: '#4A4A4A',    // Dark gray
-  secondary: '#2D2D2D',  // Charcoal
-  accent: '#6B6B6B',     // Lighter gray highlights
-};
+// Coin colors
+const DOG_COIN_COLOR = '#C9A66B'; // Golden/brass for dogs
+const CAT_COIN_COLOR = '#7B8B9A'; // Silver/steel for cats
 
 export default function AnimalPiece({ type, color, position, onClick }: AnimalPieceProps) {
   const groupRef = useRef<THREE.Group>(null);
   const targetPos = useMemo(() => new THREE.Vector3(...position), [position]);
 
-  // Dogs for white, Cats for black
-  const modelPath = color === 'white' ? '/models/animals/Dog.obj' : '/models/animals/Cat.obj';
-  const obj = useLoader(OBJLoader, modelPath);
+  // Load pet image texture
+  const texturePath = color === 'white' ? '/images/pets/dog.jpg' : '/images/pets/cat.jpg';
+  const texture = useLoader(TextureLoader, texturePath);
 
-  // Clone the object so each piece has its own instance
-  const clonedObj = useMemo(() => {
-    const clone = obj.clone();
+  // Configure texture for circular display
+  useMemo(() => {
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+  }, [texture]);
 
-    // Apply colors based on team
-    const colors = color === 'white' ? DOG_COLORS : CAT_COLORS;
-
-    clone.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        // Create a new material with team colors
-        child.material = new THREE.MeshStandardMaterial({
-          color: colors.primary,
-          roughness: 0.7,
-          metalness: 0.1,
-        });
-        child.castShadow = true;
-        child.receiveShadow = true;
-      }
-    });
-
-    return clone;
-  }, [obj, color]);
-
-  // Scale based on piece type
-  const scale = PIECE_SCALES[type];
-  const yOffset = PIECE_Y_OFFSETS[type];
+  const { radius, height } = PIECE_SIZES[type];
+  const coinColor = color === 'white' ? DOG_COIN_COLOR : CAT_COIN_COLOR;
 
   // Handle smooth movement
   useFrame(() => {
@@ -101,6 +65,11 @@ export default function AnimalPiece({ type, color, position, onClick }: AnimalPi
     }
   }, []);
 
+  // Create circular mask geometry for the image
+  const imageGeometry = useMemo(() => {
+    return new THREE.CircleGeometry(radius * 0.85, 32);
+  }, [radius]);
+
   return (
     <group
       ref={groupRef}
@@ -111,34 +80,61 @@ export default function AnimalPiece({ type, color, position, onClick }: AnimalPi
         }
       }}
     >
-      <primitive
-        object={clonedObj}
-        scale={[scale, scale, scale]}
-        position={[0, yOffset, 0]}
-        rotation={[0, color === 'white' ? Math.PI : 0, 0]} // Face forward
-      />
+      {/* Coin base (cylinder) */}
+      <mesh position={[0, height / 2, 0]} castShadow receiveShadow>
+        <cylinderGeometry args={[radius, radius, height, 32]} />
+        <meshStandardMaterial
+          color={coinColor}
+          metalness={0.6}
+          roughness={0.3}
+        />
+      </mesh>
 
-      {/* Add crown for King */}
+      {/* Coin rim (slightly larger, thinner ring for visual depth) */}
+      <mesh position={[0, height / 2, 0]}>
+        <torusGeometry args={[radius, 0.02, 8, 32]} />
+        <meshStandardMaterial
+          color={coinColor}
+          metalness={0.7}
+          roughness={0.2}
+        />
+      </mesh>
+
+      {/* Pet image on top of coin */}
+      <mesh
+        position={[0, height + 0.001, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        geometry={imageGeometry}
+      >
+        <meshBasicMaterial
+          map={texture}
+          side={THREE.FrontSide}
+        />
+      </mesh>
+
+      {/* Decorative ring around image */}
+      <mesh position={[0, height + 0.002, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[radius * 0.85, radius * 0.95, 32]} />
+        <meshStandardMaterial
+          color={color === 'white' ? '#FFD700' : '#C0C0C0'}
+          metalness={0.8}
+          roughness={0.2}
+        />
+      </mesh>
+
+      {/* Crown indicator for King */}
       {type === 'king' && (
-        <mesh position={[0, 1.4, 0]}>
-          <cylinderGeometry args={[0.15, 0.18, 0.08, 8]} />
-          <meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} />
+        <mesh position={[0, height + 0.08, 0]}>
+          <cylinderGeometry args={[0.08, 0.10, 0.06, 6]} />
+          <meshStandardMaterial color="#FFD700" metalness={0.7} roughness={0.2} />
         </mesh>
       )}
 
-      {/* Add tiara for Queen */}
+      {/* Tiara indicator for Queen */}
       {type === 'queen' && (
-        <mesh position={[0, 1.2, 0]}>
-          <coneGeometry args={[0.12, 0.15, 6]} />
-          <meshStandardMaterial color="#C0C0C0" metalness={0.7} roughness={0.2} />
-        </mesh>
-      )}
-
-      {/* Add mitre/pointed hat for Bishop */}
-      {type === 'bishop' && (
-        <mesh position={[0, 1.0, 0]}>
-          <coneGeometry args={[0.08, 0.2, 4]} />
-          <meshStandardMaterial color={color === 'white' ? '#8B4513' : '#4A0080'} />
+        <mesh position={[0, height + 0.06, 0]}>
+          <coneGeometry args={[0.06, 0.08, 5]} />
+          <meshStandardMaterial color="#E5E4E2" metalness={0.8} roughness={0.2} />
         </mesh>
       )}
     </group>
