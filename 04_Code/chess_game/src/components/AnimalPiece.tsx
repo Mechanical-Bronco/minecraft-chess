@@ -21,22 +21,22 @@ interface AnimalPieceProps {
 
 // Scale factors for each piece type (maintains chess hierarchy)
 const PIECE_SCALES: Record<PieceType, number> = {
-  king: 0.018,
-  queen: 0.016,
-  bishop: 0.014,
-  knight: 0.014,
-  rook: 0.013,
-  pawn: 0.010,
+  king: 0.35,
+  queen: 0.30,
+  bishop: 0.25,
+  knight: 0.25,
+  rook: 0.22,
+  pawn: 0.18,
 };
 
 // Y offset to place pieces on the board properly
 const PIECE_Y_OFFSETS: Record<PieceType, number> = {
-  king: 0.1,
-  queen: 0.1,
-  bishop: 0.08,
-  knight: 0.08,
-  rook: 0.06,
-  pawn: 0.05,
+  king: -0.8,
+  queen: -0.7,
+  bishop: -0.6,
+  knight: -0.6,
+  rook: -0.5,
+  pawn: -0.4,
 };
 
 // Color palettes for dogs (white/light team) and cats (black/dark team)
@@ -120,24 +120,24 @@ export default function AnimalPiece({ type, color, position, onClick }: AnimalPi
 
       {/* Add crown for King */}
       {type === 'king' && (
-        <mesh position={[0, yOffset + scale * 120, 0]}>
-          <cylinderGeometry args={[scale * 25, scale * 30, scale * 15, 8]} />
+        <mesh position={[0, 1.4, 0]}>
+          <cylinderGeometry args={[0.15, 0.18, 0.08, 8]} />
           <meshStandardMaterial color="#FFD700" metalness={0.6} roughness={0.3} />
         </mesh>
       )}
 
       {/* Add tiara for Queen */}
       {type === 'queen' && (
-        <mesh position={[0, yOffset + scale * 110, 0]}>
-          <coneGeometry args={[scale * 20, scale * 25, 6]} />
+        <mesh position={[0, 1.2, 0]}>
+          <coneGeometry args={[0.12, 0.15, 6]} />
           <meshStandardMaterial color="#C0C0C0" metalness={0.7} roughness={0.2} />
         </mesh>
       )}
 
       {/* Add mitre/pointed hat for Bishop */}
       {type === 'bishop' && (
-        <mesh position={[0, yOffset + scale * 100, 0]}>
-          <coneGeometry args={[scale * 12, scale * 30, 4]} />
+        <mesh position={[0, 1.0, 0]}>
+          <coneGeometry args={[0.08, 0.2, 4]} />
           <meshStandardMaterial color={color === 'white' ? '#8B4513' : '#4A0080'} />
         </mesh>
       )}
