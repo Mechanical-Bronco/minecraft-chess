@@ -167,7 +167,7 @@ function HUD({ isMultiplayer, playerColor, isMyTurn, onLeaveGame, inviteCode }: 
                     </button>
                 )}
                 <button className={styles.actionButton} onClick={toggleStyle}>
-                    {style === PieceStyle.SIMPLE ? '🎨 Simple' : style === PieceStyle.ADVANCED ? '🎮 Advanced' : '🐕 Dogs'}
+                    {style === PieceStyle.SIMPLE ? '🎨 Simple' : style === PieceStyle.ADVANCED ? '🎮 Advanced' : '🐕 vs 🐈'}
                 </button>
             </div>
         </>
